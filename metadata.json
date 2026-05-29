@@ -1,0 +1,9 @@
+{
+  "name": "Lịch Vạn Niên AI",
+  "description": "Công cụ tra cứu Lịch Vạn niên, chọn ngày tốt xấu và quản lý lịch trình công tác tích hợp AI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "Lunar Calendar",
+    "Event Management"
+  ]
+}

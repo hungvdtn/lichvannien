@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #120b6e; /* Màu Xanh tím than AIBTeM */
+  --color-bg-dark: #f8fafc; /* Nền xám rất sáng */
+  --color-panel: #ffffff; /* Nền trắng tinh */
+  --color-border: #e2e8f0; 
+  --color-text-muted: #64748b;
+  --font-sans: "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Georgia", serif;
+}
+
+@layer base {
+  body {
+    @apply bg-bg-dark text-slate-800 antialiased;
+    font-family: var(--font-sans);
+  }
+  h1, h2, h3, .serif { font-family: var(--font-serif); }
+}
+
+@layer components {
+  .office-card {
+    @apply bg-white border border-slate-200 rounded-xl shadow-lg transition-all duration-300;
+  }
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-3 mx-4 my-1 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-brand transition-all font-medium cursor-pointer text-sm;
+  }
+  .sidebar-link-active {
+    @apply flex items-center gap-3 px-4 py-3 mx-4 my-1 rounded-lg bg-gradient-to-r from-[#0545E7] to-sky-400 text-white font-bold shadow-lg shadow-blue-500/30 border-none;
+  }
+  .dot-grid {
+    background-image: radial-gradient(rgba(18, 11, 110, 0.05) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+}
+
+/* Sophisticated Dark specific scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-bg-dark;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-border rounded-full;
+}
+
+.markdown-body h1 { @apply text-2xl font-bold mt-6 mb-4 text-brand; }
+.markdown-body h2 { @apply text-xl font-bold mt-5 mb-3 text-slate-100; }
+.markdown-body p { @apply my-3 leading-relaxed text-slate-700; }
+.markdown-body table { @apply w-full border-collapse my-4 bg-slate-900/40; }
+.markdown-body th, .markdown-body td { @apply border border-border px-3 py-2 text-sm; }
+.markdown-body th { @apply bg-panel/60 font-semibold text-brand; }
+
