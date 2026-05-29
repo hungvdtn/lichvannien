@@ -6,7 +6,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
   FileText, Scan, Languages, ChevronRight, HelpCircle, Menu, X, 
-  CalendarDays, QrCode, Image as ImageIcon, Search, Sparkles, LogIn, LogOut, Users, Bell, Clock, MapPin, Download, ArrowRightLeft
+  CalendarDays, QrCode, Image as ImageIcon, Search, Sparkles, LogIn, LogOut, Users, Bell, Clock, MapPin, Download, ArrowLeft, BookOpen, ArrowRightLeft
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import Calendar from './components/Calendar';
@@ -17,7 +17,7 @@ import { signInWithPopup, signInWithRedirect, signOut, onAuthStateChanged, User 
 import { collection, getDocs } from 'firebase/firestore';
 
 // Sửa type Module (Bên ngoài function App)
-type Module = 'calendar' | 'converter' | 'find-good-days' | 'quick-lunar' | 'admin'; 
+type Module = 'calendar' | 'converter' | 'find-good-days' | 'quick-lunar' | 'admin' | 'library'; 
 
 // --- BẢNG ĐIỀU KHIỂN DÀNH CHO ADMIN (CẤU TRÚC VÀ GIAO DIỆN NÂNG CẤP) ---
 const AdminPanel = () => {
@@ -205,6 +205,95 @@ const AdminPanel = () => {
            </div>
         )}
      </div>
+  );
+};
+// --- GIAO DIỆN THƯ VIỆN TÀI LIỆU ---
+const LibraryPanel = () => {
+  const [selectedDoc, setSelectedDoc] = useState<any>(null);
+
+  const DOCUMENTS = [
+    { id: 1, title: 'Hiệp Kỷ Biện Phương Thư (Quyển 1)', desc: 'Tài liệu kinh điển nền tảng về trạch cát, xem ngày tốt xấu và âm dương ngũ hành.', file: '/docs/1. Hiep_ky_bien_phuong_thu_1.pdf' },
+    { id: 2, title: 'Hiệp Kỷ Biện Phương Thư (Quyển 2)', desc: 'Phần tiếp theo của bộ Hiệp Kỷ Biện Phương Thư chuyên sâu về trạch cát.', file: '/docs/2. Hiep_ky_bien_phuong_thu_2.pdf' },
+    { id: 3, title: 'Ngọc Hạp Thông Thư', desc: 'Cuốn sách gối đầu giường về xem ngày giờ, các sao tốt xấu lưu truyền trong dân gian.', file: '/docs/3. Ngoc_Hap_Thong_Thu.pdf' },
+    { id: 4, title: 'Đổng Công Tuyển Trạch Nhật Yếu Dụng', desc: 'Bí quyết chọn ngày giờ tốt lành của Đổng Trọng Thư.', file: '/docs/4. Dong_cong_tuyen_trach_nhat_yeu_dung.pdf' },
+    { id: 5, title: 'Thẩm Thị Huyền Không Học', desc: 'Tài liệu chuyên sâu về Huyền Không Phi Tinh, phong thủy nhà ở.', file: '/docs/5. Tham_Thi_Huyen_Khong.pdf' },
+    { id: 6, title: 'Hoàng Đế Trạch Kinh', desc: 'Kinh điển phong thủy tướng trạch được ghi chép từ thời cổ đại.', file: '/docs/6. Hoang_de_trach_kinh.pdf' },
+    { id: 7, title: 'Bát Trạch Chánh Tông', desc: 'Cơ sở lý luận về Bát Trạch phong thủy, hướng nhà hợp mệnh gia chủ.', file: '/docs/7. Bat-trach-chanh-tong.pdf' },
+    { id: 8, title: 'Bát Trạch Minh Cảnh - Kim Oanh Ký', desc: 'Tài liệu diễn giải chi tiết về Bát Trạch Minh Cảnh.', file: '/docs/8. Bat-trach-minh-canh-kim-oanh-ky.pdf' },
+    { id: 9, title: 'Kinh Dịch - Đạo người quân tử', desc: 'Tìm hiểu về Kinh Dịch và triết lý nhân sinh.', file: '/docs/9. Kinh_dich_dao_nguoi_quan_tu.pdf' },
+    { id: 10, title: 'Mai Hoa Dịch Số', desc: 'Tuyệt kỹ dự đoán học dựa trên thời gian và vạn vật của Thiệu Khang Tiết.', file: '/docs/10. Mai_hoa_dich_so.pdf' },
+    { id: 11, title: 'Phong Thủy Toàn Thư (Thiệu Vĩ Hoa)', desc: 'Tổng hợp kiến thức phong thủy ứng dụng hiện đại.', file: '/docs/11. Phong-thuy-toan-thu-thieu-vi-hoa-p.pdf' },
+    { id: 12, title: 'Tăng San Bốc Dịch', desc: 'Sách kinh điển về gieo quẻ Lục Hào, phán đoán cát hung.', file: '/docs/12. Tang_san_boc_dich.pdf' },
+  ];
+
+  return (
+    // Sử dụng class động: Khi mở tài liệu sẽ xóa bỏ p-4, md:p-6 và giới hạn max-w-6xl để tràn toàn màn hình
+    <div className={`font-sans w-full ${!selectedDoc ? 'p-4 md:p-6 max-w-6xl mx-auto' : 'p-0'}`}>
+      {!selectedDoc ? (
+        // GIAO DIỆN DANH SÁCH TÀI LIỆU (Giữ nguyên khoảng cách đẹp mắt ban đầu)
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+          <h2 className="text-2xl font-bold text-[#0545E7] flex items-center gap-3 mb-2 uppercase tracking-widest">
+            <BookOpen size={28} /> Thư viện Phong thủy - Trạch cát
+          </h2>
+          <p className="text-slate-500 mb-8 font-medium">Kho lưu trữ các tài liệu kinh điển hỗ trợ tra cứu chuyên sâu.</p>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {DOCUMENTS.map(doc => (
+              <div 
+                key={doc.id} 
+                onClick={() => setSelectedDoc(doc)}
+                className="p-5 bg-white border border-slate-200 rounded-xl cursor-pointer hover:border-[#0545E7] hover:shadow-[0_10px_20px_rgba(5,69,231,0.1)] hover:-translate-y-1 transition-all group flex gap-4 items-start"
+              >
+                <div className="p-3 bg-sky-50 text-[#0545E7] rounded-lg group-hover:bg-[#0545E7] group-hover:text-white transition-colors">
+                   <FileText size={24} />
+                </div>
+                <div>
+                   <h4 className="text-base font-bold text-slate-800 group-hover:text-[#0545E7] transition-colors leading-tight">{doc.title}</h4>
+                   <p className="text-sm text-slate-500 mt-1.5 leading-relaxed">{doc.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      ) : (
+        // GIAO DIỆN ĐỌC TÀI LIỆU - TỐI ƯU TRÀN VIỀN TUYỆT ĐỐI
+        <motion.div 
+          initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
+          className="flex flex-col h-[calc(100vh-65px)] w-full bg-white"
+        >
+          {/* Thanh công cụ điều hướng sát khít hai bên */}
+          <div className="flex items-center justify-between bg-white px-6 py-3 border-b border-slate-200 shadow-sm flex-shrink-0">
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={() => setSelectedDoc(null)} 
+                className="p-2 bg-sky-50 text-[#0545E7] rounded-lg hover:bg-[#0545E7] hover:text-white transition-colors flex items-center gap-2 font-bold"
+              >
+                <ArrowLeft size={20} /> <span className="hidden sm:block">Quay lại</span>
+              </button>
+              <h3 className="font-bold text-slate-800 text-lg line-clamp-1 border-l-2 border-slate-200 pl-3">
+                {selectedDoc.title}
+              </h3>
+            </div>
+            <button 
+              onClick={() => setSelectedDoc(null)} 
+              className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-colors"
+              title="Đóng tài liệu"
+            >
+              <X size={24} />
+            </button>
+          </div>
+          
+          {/* Khung chứa iframe loại bỏ hoàn toàn viền (border) và bo góc (rounded) để chạm sát đáy và hai bên */}
+          <div className="flex-1 w-full bg-slate-100 overflow-hidden">
+            <iframe 
+              src={selectedDoc.file} 
+              className="w-full h-full border-none m-0 p-0"
+              title={selectedDoc.title}
+            />
+          </div>
+        </motion.div>
+      )}
+    </div>
   );
 };
 
@@ -509,6 +598,7 @@ export default function App() {
     { id: 'find-good-days', label: 'Tìm ngày tốt', icon: Search },
     { id: 'converter', label: 'Đổi ngày Âm - Dương', icon: ArrowRightLeft },
     { id: 'quick-lunar', label: 'Tìm nhanh Âm lịch', icon: Search },
+    { id: 'library', label: 'Thư viện', icon: BookOpen },
   ];
 
   const displayModules = [...modules];
@@ -609,6 +699,8 @@ export default function App() {
               <motion.div key={activeModule} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3, ease: "easeOut" }} className="w-full">
                 {activeModule === 'admin' ? (
                   <AdminPanel />
+                ) : activeModule === 'library' ? (
+                  <LibraryPanel />
                 ) : (
                   <Calendar activeTab={activeModule} setActiveTab={setActiveModule} />
                 )}
