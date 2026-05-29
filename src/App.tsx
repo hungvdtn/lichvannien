@@ -107,16 +107,13 @@ const AdminPanel = () => {
   return (
      <div className="p-4 md:p-8 text-slate-800 animate-in fade-in duration-500 font-sans">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-          <h2 className="text-xl md:text-2xl font-bold text-brand flex items-center gap-3">
-             <Users size={28} /> Hệ thống kiểm soát thành viên Quản trị
+          <h2 className="text-2xl font-bold text-[#0545E7] flex items-center gap-3">
+            <Users size={28} /> Hệ thống kiểm soát thành viên Quản trị
           </h2>
           {!stats.loading && userList.length > 0 && (
-            <button 
-              onClick={exportToCSV}
-              className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black rounded-lg transition-transform hover:scale-105 shadow-lg shadow-emerald-900/30 uppercase tracking-wider cursor-pointer"
-            >
-              <Download size={16}/> Xuất dữ liệu báo cáo (CSV)
-            </button>
+            <button onClick={exportToCSV} className="px-5 py-2.5 bg-gradient-to-r from-[#0545E7] to-sky-400 text-white font-bold rounded-lg hover:opacity-90 transition-all shadow-lg shadow-blue-500/30 border-none flex items-center gap-2 text-sm uppercase tracking-wide">
+            <Download size={18} /> XUẤT DỮ LIỆU BÁO CÁO (CSV)
+          </button>
           )}
         </div>
 
@@ -128,32 +125,34 @@ const AdminPanel = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                  <div className="bg-white p-8 rounded-2xl border border-sky-900/50 shadow-[0_0_30px_rgba(56,189,248,0.1)] relative overflow-hidden group hover:border-sky-500 transition-colors">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity"><Users size={64}/></div>
-                    <h3 className="text-slate-600 font-bold mb-2 uppercase tracking-widest text-sm relative z-10">Tổng tài khoản</h3>
+                    <h3 className="text-slate-600 font-bold mb-2 uppercase tracking-widest text-base relative z-10">Tổng tài khoản</h3>
                     <p className="text-5xl font-black text-sky-400 relative z-10">{stats.users}</p>
-                    <p className="text-xs text-slate-500 mt-2 relative z-10">Tài khoản định danh hệ thống</p>
+                    <p className="text-sm text-slate-500 mt-2 relative z-10">Tài khoản định danh hệ thống</p>
                  </div>
                  
                  <div className="bg-white p-8 rounded-2xl border border-emerald-900/50 shadow-[0_0_30px_rgba(5,150,105,0.1)] relative overflow-hidden group hover:border-emerald-500 transition-colors">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity"><CalendarDays size={64}/></div>
-                    <h3 className="text-slate-600 font-bold mb-2 uppercase tracking-widest text-sm relative z-10">Sự kiện Lịch</h3>
+                    <h3 className="text-slate-600 font-bold mb-2 uppercase tracking-widest text-base relative z-10">Sự kiện Lịch</h3>
                     <p className="text-5xl font-black text-emerald-400 relative z-10">{stats.events}</p>
-                    <p className="text-xs text-slate-500 mt-2 relative z-10">Hồ sơ công việc đồng bộ hóa</p>
+                    <p className="text-sm text-slate-500 mt-2 relative z-10">Hồ sơ công việc đồng bộ hóa</p>
                  </div>
 
                  {/* KHỐI THỐNG KÊ MỚI DÀNH CHO QR CODE */}
                  <div className="bg-white p-8 rounded-2xl border border-amber-900/50 shadow-[0_0_30px_rgba(245,158,11,0.1)] relative overflow-hidden group hover:border-amber-500 transition-colors">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity"><QrCode size={64}/></div>
-                    <h3 className="text-slate-600 font-bold mb-2 uppercase tracking-widest text-sm relative z-10">Lượt tạo & Tải QR</h3>
+                    <h3 className="text-slate-600 font-bold mb-2 uppercase tracking-widest text-base relative z-10">Lượt tạo & Tải QR</h3>
                     <p className="text-5xl font-black text-amber-400 relative z-10">{stats.qrDownloads}</p>
-                    <p className="text-xs text-slate-500 mt-2 relative z-10">Thống kê từ người dùng ẩn danh</p>
+                    <p className="text-sm text-slate-500 mt-2 relative z-10">Thống kê từ người dùng ẩn danh</p>
                  </div>
               </div>
 
               <div className="bg-white p-6 rounded-2xl border border-slate-200">
-                 <h3 className="text-brand font-bold uppercase tracking-widest mb-6 text-sm">Hồ sơ chi tiết phân tích người dùng</h3>
+                 <h3 className="text-lg font-bold text-[#0545E7] mb-6 uppercase tracking-widest mt-8">
+            HỒ SƠ CHI TIẾT PHÂN TÍCH NGƯỜI DÙNG
+          </h3>
                  <div className="overflow-x-auto custom-scrollbar">
-                   <table className="w-full text-sm text-left text-slate-700">
-                     <thead className="text-xs text-slate-600 uppercase bg-slate-100/50 tracking-wider">
+                   <table className="w-full text-base text-left text-slate-700">
+                     <thead className="text-sm text-slate-600 uppercase bg-slate-100/50 tracking-wider">
                        <tr>
                          <th className="px-6 py-4 rounded-tl-lg">Thông tin người dùng</th>
                          <th className="px-6 py-4">Sự kiện (Công cụ)</th>
@@ -168,28 +167,28 @@ const AdminPanel = () => {
                            <tr key={i} className="hover:bg-slate-100/30 transition-colors">
                              <td className="px-6 py-4 space-y-1">
                                <div className="font-bold text-white text-base">{u.displayName}</div>
-                               <div className="text-xs text-sky-400 font-mono font-medium">{u.email}</div>
+                               <div className="text-sm text-sky-400 font-mono font-medium">{u.email}</div>
                                <div className="text-[11px] text-slate-500 font-medium pt-1">Tham gia: {u.joinedDate}</div>
                              </td>
                              <td className="px-6 py-4">
                                <div className="flex flex-wrap gap-1.5">
                                  {u.tools && u.tools.length > 0 ? (
                                    u.tools.map((toolName: string, tIdx: number) => (
-                                     <span key={tIdx} className={`px-2.5 py-1 text-[10px] font-black uppercase rounded-md tracking-wider border ${toolName === 'Lịch' ? 'bg-sky-500/10 text-sky-400 border-sky-500/20' : 'bg-purple-500/10 text-purple-400 border-purple-500/20'}`}>
+                                     <span key={tIdx} className={`px-2.5 py-1 text-xs font-black uppercase rounded-md tracking-wider border ${toolName === 'Lịch' ? 'bg-sky-500/10 text-sky-400 border-sky-500/20' : 'bg-purple-500/10 text-purple-400 border-purple-500/20'}`}>
                                        {toolName === 'Lịch' ? 'Lịch Vạn Niên' : 'Rà lỗi văn bản'}
                                      </span>
                                    ))
                                  ) : (
-                                   <span className="text-slate-600 text-xs italic">Không có dữ liệu</span>
+                                   <span className="text-slate-600 text-sm italic">Không có dữ liệu</span>
                                  )}
                                </div>
                              </td>
                              <td className="px-6 py-4">
-                               <span className={`px-2.5 py-1 text-[10px] font-black uppercase rounded-md tracking-wider border ${isCurrentAdmin ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-slate-800 text-slate-600 border-slate-700'}`}>
+                               <span className={`px-2.5 py-1 text-xs font-black uppercase rounded-md tracking-wider border ${isCurrentAdmin ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-slate-800 text-slate-600 border-slate-700'}`}>
                                  {isCurrentAdmin ? "Quản trị viên" : "Người dùng"}
                                </span>
                              </td>
-                             <td className="px-6 py-4 font-bold text-slate-700 text-sm">
+                             <td className="px-6 py-4 font-bold text-slate-700 text-base">
                                {u.lastLogin}
                              </td>
                            </tr>
