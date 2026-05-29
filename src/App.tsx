@@ -160,31 +160,36 @@ const AdminPanel = () => {
                          <th className="px-6 py-4 rounded-tr-lg">Lần đăng nhập cuối</th>
                        </tr>
                      </thead>
-                     <tbody className="divide-y divide-[#1e293b]">
+                     <tbody className="divide-y divide-slate-200">
                        {userList.map((u, i) => {
                          const isCurrentAdmin = ['hungvdtnai@gmail.com', 'hungvdtn@gmail.com'].includes(u.email?.toLowerCase());
                          return (
-                           <tr key={i} className="hover:bg-slate-100/30 transition-colors">
+                           <tr key={i} className="hover:bg-slate-50 transition-colors">
                              <td className="px-6 py-4 space-y-1">
-                               <div className="font-bold text-white text-base">{u.displayName}</div>
-                               <div className="text-sm text-sky-400 font-mono font-medium">{u.email}</div>
-                               <div className="text-[11px] text-slate-500 font-medium pt-1">Tham gia: {u.joinedDate}</div>
+                               {/* Tên người dùng hiển thị màu đen đậm */}
+                               <div className="font-bold text-slate-900 text-base">{u.displayName}</div>
+                               {/* Email hiển thị màu xám đen mượt mà */}
+                               <div className="text-sm text-slate-600 font-medium">{u.email}</div>
+                               {/* Ngày tham gia được phóng to lên text-sm */}
+                               <div className="text-sm text-slate-500 font-medium pt-1">Tham gia: {u.joinedDate}</div>
                              </td>
                              <td className="px-6 py-4">
                                <div className="flex flex-wrap gap-1.5">
                                  {u.tools && u.tools.length > 0 ? (
                                    u.tools.map((toolName: string, tIdx: number) => (
-                                     <span key={tIdx} className={`px-2.5 py-1 text-xs font-black uppercase rounded-md tracking-wider border ${toolName === 'Lịch' ? 'bg-sky-500/10 text-sky-400 border-sky-500/20' : 'bg-purple-500/10 text-purple-400 border-purple-500/20'}`}>
+                                     /* Các sự kiện/công cụ chuyển sang viền đen, nền trắng */
+                                     <span key={tIdx} className="px-2.5 py-1 text-xs font-black uppercase rounded-md tracking-wider border bg-white text-slate-700 border-slate-300 shadow-sm">
                                        {toolName === 'Lịch' ? 'Lịch Vạn Niên' : 'Rà lỗi văn bản'}
                                      </span>
                                    ))
                                  ) : (
-                                   <span className="text-slate-600 text-sm italic">Không có dữ liệu</span>
+                                   <span className="text-slate-500 text-sm italic">Không có dữ liệu</span>
                                  )}
                                </div>
                              </td>
                              <td className="px-6 py-4">
-                               <span className={`px-2.5 py-1 text-xs font-black uppercase rounded-md tracking-wider border ${isCurrentAdmin ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-slate-800 text-slate-600 border-slate-700'}`}>
+                               {/* Cấp bậc: Admin màu tối nổi bật, Người dùng màu xám sáng dễ nhìn */}
+                               <span className={`px-2.5 py-1 text-xs font-black uppercase rounded-md tracking-wider border shadow-sm ${isCurrentAdmin ? 'bg-slate-800 text-white border-slate-700' : 'bg-slate-100 text-slate-700 border-slate-300'}`}>
                                  {isCurrentAdmin ? "Quản trị viên" : "Người dùng"}
                                </span>
                              </td>
