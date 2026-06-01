@@ -947,7 +947,8 @@ export default function Calendar({ activeTab, setActiveTab }: CalendarProps) {
   };
 
   const handleQuickLunarSearch = () => {
-    const d = parseInt(qLunarDay), m = parseInt(qLunarMonth), y = parseInt(qLunarYear);
+    // Đã đồng bộ tên biến (qlDay, qlMonth, qlYear) khớp chính xác với giao diện nhập liệu
+    const d = parseInt(qlDay), m = parseInt(qlMonth), y = parseInt(qlYear);
     if (!d || !m || !y) return alert("Vui lòng nhập đầy đủ Ngày, Tháng, Năm âm lịch!");
     try {
         let found = null;
